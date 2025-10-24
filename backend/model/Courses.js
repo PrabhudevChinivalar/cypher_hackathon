@@ -18,7 +18,8 @@ const coursesSchema = new mongoose.Schema({
     courseContents: [{
         name: { type: String, required: true },
         description: { type: String },
-        image: { type: String, default: null }
+        image: { type: String, default: null },
+        video: { type: String, default: null }
     }],
     category: { 
         type: String, 
