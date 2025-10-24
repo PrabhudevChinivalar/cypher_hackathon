@@ -1,0 +1,52 @@
+/* HomePage general wrapper */
+.homepage {
+  min-height: 100vh; /* full screen height */
+  background: #f9fafb; /* light grey background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200vh;
+  justify-content: flex-start; /* start under navbar */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Example section styling (optional for future content) */
+.homepage-section {
+  max-width: 1200px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 40px 24px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Headings inside sections */
+.homepage-section h1 {
+  font-size: 2rem;
+  color: #1f2937; /* dark gray */
+  margin-bottom: 12px;
+}
+
+.homepage-section p {
+  color: #4b5563; /* lighter gray text */
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .homepage-section {
+    padding: 24px 16px;
+  }
+
+  .homepage-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .homepage-section p {
+    font-size: 0.95rem;
+  }
+}

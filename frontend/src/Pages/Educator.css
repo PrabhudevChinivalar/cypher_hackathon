@@ -1,0 +1,89 @@
+/* Educator Page Container */
+.educator-container {
+  padding: 40px 20px;
+  display: flex;
+  margin-top: 50px;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+/* Add Button (similar to Register button in Navbar) */
+.add-btn {
+  padding: 12px 26px;
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(37, 99, 235, 0.2);
+}
+
+.add-btn:hover {
+  background: linear-gradient(90deg, #1e40af, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(37, 99, 235, 0.3);
+}
+
+/* Educator Form (card style like Auth box) */
+.educator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 450px;
+  width: 100%;
+  margin-top: 25px;
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Inputs & Textarea */
+.educator-form input[type="text"],
+.educator-form textarea,
+.educator-form input[type="file"] {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.educator-form input[type="text"]:focus,
+.educator-form textarea:focus,
+.educator-form input[type="file"]:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 6px rgba(37, 117, 252, 0.3);
+}
+
+.educator-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* Submit Button (green theme aligned with your design, but styled like Auth buttons) */
+.submit-btn {
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #16a34a, #15803d); /* green gradient */
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(22, 163, 74, 0.2);
+}
+
+.submit-btn:hover {
+  background: linear-gradient(90deg, #15803d, #166534);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(22, 163, 74, 0.3);
+}

@@ -1,0 +1,188 @@
+/* ================= Base Navbar ================= */
+.navbar {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ================= Logo + Hamburger ================= */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navbar-logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #007bff;
+  cursor: pointer;
+}
+
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.menu-toggle span {
+  width: 24px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ================= Menu ================= */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+/* ================= Search Bar ================= */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #f5f7fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 30px;
+  padding: 6px 12px;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.navbar-search:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 3px 12px rgba(0,123,255,0.15);
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  flex: 1;
+}
+
+.search-button {
+  background: #007bff;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.search-button:hover {
+  background: #0056b3;
+  transform: scale(1.1);
+}
+
+/* ================= Register Button ================= */
+.register-button {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,123,255,0.2);
+}
+
+.register-button:hover {
+  background: linear-gradient(135deg, #0056b3, #0084ff);
+  box-shadow: 0 6px 16px rgba(0,123,255,0.35);
+  transform: translateY(-2px);
+}
+
+/* ================= Mobile Styles ================= */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 70%;
+    height: 100%;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 60px 20px;
+    gap: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    transition: left 0.3s ease;
+  }
+
+  .nav-menu.open {
+    left: 0;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .navbar-search {
+    width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .register-button {
+    width: 100%;
+    text-align: center;
+  }
+}

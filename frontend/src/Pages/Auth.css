@@ -1,0 +1,158 @@
+/* Page container */
+
+
+.auth-container {
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 70px); /* keep below navbar */
+  padding-top: 70px;
+  background-color: #f0f2f5;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;           
+  box-sizing: border-box;
+  width: 200vh;
+}
+
+
+/* Auth box */
+.auth-box {
+ 
+  background: rgba(255, 255, 255, 0.95);
+  padding: 50px 40px;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 380px;        
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+  margin: auto;
+}
+
+/* Title */
+.auth-title {
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+
+
+/* Role toggle (Student / Educator) */
+.role-toggle {
+  display: flex;
+  margin-bottom: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.role-toggle button {
+  flex: 1;
+  padding: 12px;
+  background: #f9f9f9;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.role-toggle button:hover {
+  background: #f0f0f0;
+}
+
+.role-toggle button.active {
+  background: #2575fc;
+  color: white;
+  font-weight: 600;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Input fields */
+.auth-form .form-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  background: #fff; /* force white background */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+  color: #333;
+}
+
+.auth-form input:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 6px rgba(37, 117, 252, 0.3);
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #2575fc; /* match navbar blue */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(37, 117, 252, 0.25);
+}
+
+.submit-btn:hover {
+  background: #1a5edb;
+  transform: translateY(-2px);
+}
+
+
+/* Switch auth (Login/Register link) */
+.switch-auth {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.switch-auth span {
+  color: #2575fc;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.switch-auth span:hover {
+  color: #6a11cb;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
