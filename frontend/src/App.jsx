@@ -3,6 +3,7 @@ import Navbar from "./Components/Navbar";
 import Auth from "./Pages/Auth";
 import Educator from "./Pages/Educator";
 import Student from "./Pages/Student";
+import CourseDetail from "./Pages/CourseDetail";
 import Home from "./Pages/HomePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -21,6 +22,11 @@ function Layout() {
         <Route path="/educator" element={
           <ProtectedRoute requiredRole="educator">
             <Educator />
+          </ProtectedRoute>
+        } />
+        <Route path="/course/:courseId" element={
+          <ProtectedRoute requiredRole="student">
+            <CourseDetail />
           </ProtectedRoute>
         } />
       </Routes>

@@ -21,6 +21,8 @@
     "express-fileupload": "^1.5.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.2",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "ollama": "^0.6.0",
+    "openai": "^6.7.0"
   }
 }

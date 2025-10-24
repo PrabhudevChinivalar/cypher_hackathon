@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "./Student.css";
 
 export default function Student() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -144,6 +146,11 @@ export default function Student() {
     return courses;
   };
 
+  // Navigate to course details
+  const viewCourseDetails = (courseId) => {
+    navigate(`/course/${courseId}`);
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -237,7 +244,7 @@ export default function Student() {
           </div>
         )}
 
-        {activeTab === 'all-courses' ? (
+        {activeTab === 'all-courses' && (
           <div className="course-grid">
             {courses.length > 0 ? (
               courses.map((course) => (
@@ -310,7 +317,12 @@ export default function Student() {
                         Enroll Now
                       </button>
                     )}
-                    <button className="view-btn">View Details</button>
+                    <button 
+                      className="view-btn"
+                      onClick={() => viewCourseDetails(course._id)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
               ))
@@ -320,7 +332,9 @@ export default function Student() {
               </div>
             )}
           </div>
-        ) : (
+        )}
+
+        {activeTab === 'enrolled' && (
           <div className="course-grid">
             {enrolledCourses.length > 0 ? (
               enrolledCourses.map((course) => (
@@ -367,7 +381,12 @@ export default function Student() {
                   
                   <div className="course-actions">
                     <button className="continue-btn">Continue Learning</button>
-                    <button className="view-btn">View Details</button>
+                    <button 
+                      className="view-btn"
+                      onClick={() => viewCourseDetails(course._id)}
+                    >
+                      View Details
+                    </button>
                     <button 
                       className="delete-btn"
                       onClick={() => deleteEnrolledCourse(course._id)}
@@ -389,7 +408,9 @@ export default function Student() {
               </div>
             )}
           </div>
-        ) }: activeTab === 'by-educator' ? (
+        )}
+
+        {activeTab === 'by-educator' && (
           <div className="course-grid">
             {getFilteredCourses().length > 0 ? (
               getFilteredCourses().map((course) => (
@@ -462,7 +483,12 @@ export default function Student() {
                         Enroll Now
                       </button>
                     )}
-                    <button className="view-btn">View Details</button>
+                    <button 
+                      className="view-btn"
+                      onClick={() => viewCourseDetails(course._id)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
               ))
@@ -484,7 +510,7 @@ export default function Student() {
               </div>
             )}
           </div>
-        ) : null
+        )}
       </main>
     </div>
   );
