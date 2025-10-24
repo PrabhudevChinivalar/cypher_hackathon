@@ -480,13 +480,120 @@
   margin: 0;
 }
 
-/* ===== No Courses State ===== */
-.no-courses {
-  text-align: center;
-  padding: 60px 20px;
+/* ===== Progress Bar ===== */
+.progress-section {
+  margin: 15px 0;
+  padding: 15px;
   background-color: #f8f9fa;
-  border-radius: 15px;
-  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #28a745, #20c997);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: #28a745;
+  font-weight: 600;
+}
+
+/* ===== Quiz Section ===== */
+.quiz-section {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #fff3cd;
+  border-radius: 8px;
+  border: 1px solid #ffeaa7;
+}
+
+.quiz-section h4 {
+  margin: 0 0 10px 0;
+  color: #856404;
+  font-size: 1rem;
+}
+
+.quiz-btn {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.quiz-btn:hover {
+  background-color: #e0a800;
+  transform: translateY(-1px);
+}
+
+.quiz-btn:disabled {
+  background-color: #6c757d;
+  color: #fff;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.quiz-results {
+  background-color: #d4edda;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #c3e6cb;
+}
+
+.quiz-results p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #155724;
+}
+
+/* ===== Video Lock Overlay ===== */
+.video-locked-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: white;
+}
+
+.lock-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.video-locked-overlay p {
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+}
+
+.course-image {
+  position: relative;
 }
 
 .no-courses p {

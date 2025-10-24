@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import AIChat from "../Components/AIChat";
+import QuizComponent from "../Components/QuizComponent";
 import "./CourseDetail.css";
 
 export default function CourseDetail() {
@@ -13,8 +14,11 @@ export default function CourseDetail() {
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [enrollmentStatus, setEnrollmentStatus] = useState('checking');
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+  const [quizData, setQuizData] = useState(null);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [isGeneratingQuiz, setIsGeneratingQuiz] = useState(false);
 
-  // Fetch course details
+  // Fetch course details with progress data
   const fetchCourseDetails = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -28,6 +32,9 @@ export default function CourseDetail() {
       if (response.ok) {
         const data = await response.json();
         setCourse(data);
+        
+        // Fetch progress data for this course
+        await fetchCourseProgress(data);
       } else {
         console.error('Failed to fetch course details');
         navigate('/student');
@@ -35,6 +42,35 @@ export default function CourseDetail() {
     } catch (error) {
       console.error('Error fetching course details:', error);
       navigate('/student');
+    }
+  };
+
+  // Fetch progress data for the course
+  const fetchCourseProgress = async (courseData) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/api/progress/course/${courseId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          const progressData = result.progress;
+          setCourse(prev => ({
+            ...prev,
+            progress: progressData.progress,
+            quiz: progressData.quizResults.length > 0 
+              ? progressData.quizResults[progressData.quizResults.length - 1]
+              : null
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching course progress:', error);
     }
   };
 
@@ -117,6 +153,110 @@ export default function CourseDetail() {
     }
   };
 
+  // Generate quiz for a course
+  const generateQuiz = async () => {
+    try {
+      setIsGeneratingQuiz(true);
+      console.log('Generating quiz for course:', courseId);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/api/ai/generate-quiz`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ courseId })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Quiz generation response:', result);
+        
+        if (result.success && result.quiz) {
+          setQuizData(result.quiz);
+          setShowQuiz(true);
+          console.log('Quiz data set:', result.quiz);
+        } else {
+          console.error('Invalid quiz response:', result);
+          alert('Failed to generate quiz - invalid response');
+        }
+      } else {
+        const errorData = await response.json();
+        console.error('Quiz generation failed:', errorData);
+        alert(`Failed to generate quiz: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error generating quiz:', error);
+      alert('Failed to generate quiz');
+    } finally {
+      setIsGeneratingQuiz(false);
+    }
+  };
+
+  // Submit quiz answers
+  const submitQuiz = async (answers) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/api/ai/submit-quiz`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          courseId, 
+          answers,
+          quizData: quizData // Pass the quiz data for proper scoring
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        
+        // Save quiz result to progress database
+        try {
+          const progressResponse = await fetch('http://localhost:5000/api/progress/quiz-result', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              courseId,
+              quizData: {
+                quizId: quizData?.id || Date.now().toString(),
+                score: result.score,
+                totalQuestions: result.totalQuestions,
+                correctAnswers: result.correctAnswers,
+                feedback: result.feedback
+              }
+            })
+          });
+          
+          if (progressResponse.ok) {
+            console.log('Quiz result saved to progress database');
+          }
+        } catch (progressError) {
+          console.error('Error saving quiz progress:', progressError);
+        }
+        
+        // Update course progress
+        setCourse(prev => ({ 
+          ...prev, 
+          progress: result.progress,
+          quiz: { score: result.score, feedback: result.feedback }
+        }));
+        setShowQuiz(false);
+        alert(`Quiz completed! Score: ${result.score}%`);
+      } else {
+        alert('Failed to submit quiz');
+      }
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+      alert('Failed to submit quiz');
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -194,6 +334,21 @@ export default function CourseDetail() {
         {course.courseContents && course.courseContents.length > 0 && (
           <div className="course-video-section">
             <h2>Course Content</h2>
+            
+            {/* Progress Bar for Enrolled Students */}
+            {isEnrolled && (
+              <div className="course-progress-section">
+                <h3>Your Progress</h3>
+                <div className="progress-bar">
+                  <div 
+                    className="progress-fill" 
+                    style={{ width: `${course.progress || 0}%` }}
+                  ></div>
+                </div>
+                <span className="progress-text">{course.progress || 0}% Complete</span>
+              </div>
+            )}
+            
             {course.courseContents.map((content, index) => (
               <div key={index} className="content-item">
                 <div className="content-header">
@@ -205,7 +360,8 @@ export default function CourseDetail() {
                   <p className="content-description">{content.description}</p>
                 )}
 
-                {content.video && (
+                {/* Show video only for enrolled students */}
+                {content.video && isEnrolled ? (
                   <div className="video-container">
                     <video 
                       src={content.video} 
@@ -216,17 +372,21 @@ export default function CourseDetail() {
                       Your browser does not support the video tag.
                     </video>
                   </div>
-                )}
-
-                {content.image && !content.video && (
+                ) : content.image ? (
                   <div className="image-container">
                     <img 
                       src={content.image} 
                       alt={`Lesson ${index + 1}`}
                       className="course-image"
                     />
+                    {content.video && !isEnrolled && (
+                      <div className="video-locked-overlay">
+                        <div className="lock-icon">🔒</div>
+                        <p>Enroll to access video content</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                ) : null}
               </div>
             ))}
           </div>
@@ -287,6 +447,37 @@ export default function CourseDetail() {
             </div>
           )}
         </div>
+
+        {/* Quiz Section for Enrolled Students */}
+        {isEnrolled && (
+          <div className="quiz-section">
+            <h3>📝 Course Quiz</h3>
+            <p>Test your knowledge and track your progress with AI-generated quizzes.</p>
+            {!showQuiz ? (
+              <>
+                <button 
+                  className="quiz-btn"
+                  onClick={generateQuiz}
+                  disabled={isGeneratingQuiz}
+                >
+                  {isGeneratingQuiz ? 'Generating Quiz...' : 'Generate Quiz'}
+                </button>
+                {course.quiz && (
+                  <div className="quiz-results">
+                    <p><strong>Last Quiz Score:</strong> {course.quiz.score || 0}%</p>
+                    <p><strong>Feedback:</strong> {course.quiz.feedback || 'Complete a quiz to get feedback'}</p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <QuizComponent 
+                quiz={quizData} 
+                onSubmit={submitQuiz}
+                onCancel={() => setShowQuiz(false)}
+              />
+            )}
+          </div>
+        )}
 
         {/* AI Assistant Section */}
         <div className="ai-assistant-section">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import QuizComponent from "../Components/QuizComponent";
 import "./Student.css";
 
 export default function Student() {
@@ -12,6 +13,9 @@ export default function Student() {
   const [activeTab, setActiveTab] = useState('all-courses');
   const [enrollmentStatus, setEnrollmentStatus] = useState({});
   const [selectedEducator, setSelectedEducator] = useState(null);
+  const [quizData, setQuizData] = useState({});
+  const [showQuiz, setShowQuiz] = useState({});
+  const [isGeneratingQuiz, setIsGeneratingQuiz] = useState({});
 
   // Student info from authenticated user
   const student = {
@@ -39,7 +43,7 @@ export default function Student() {
     }
   };
 
-  // Fetch enrolled courses
+  // Fetch enrolled courses with progress data
   const fetchEnrolledCourses = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -52,9 +56,42 @@ export default function Student() {
       if (response.ok) {
         const data = await response.json();
         setEnrolledCourses(data);
+        
+        // Fetch progress data for each enrolled course
+        await fetchProgressData(data);
       }
     } catch (error) {
       console.error('Error fetching enrolled courses:', error);
+    }
+  };
+
+  // Fetch progress data for enrolled courses
+  const fetchProgressData = async (courses) => {
+    try {
+      const token = localStorage.getItem('token');
+      const progressPromises = courses.map(course => 
+        fetch(`http://localhost:5000/api/progress/course/${course._id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+      );
+      
+      const progressResults = await Promise.all(progressPromises);
+      
+      // Update courses with progress data
+      const coursesWithProgress = courses.map((course, index) => ({
+        ...course,
+        progress: progressResults[index].success ? progressResults[index].progress.progress : 0,
+        quiz: progressResults[index].success && progressResults[index].progress.quizResults.length > 0 
+          ? progressResults[index].progress.quizResults[progressResults[index].progress.quizResults.length - 1]
+          : null
+      }));
+      
+      setEnrolledCourses(coursesWithProgress);
+    } catch (error) {
+      console.error('Error fetching progress data:', error);
     }
   };
 
@@ -149,6 +186,116 @@ export default function Student() {
   // Navigate to course details
   const viewCourseDetails = (courseId) => {
     navigate(`/course/${courseId}`);
+  };
+
+  // Generate quiz for a course
+  const generateQuiz = async (courseId) => {
+    try {
+      setIsGeneratingQuiz(prev => ({ ...prev, [courseId]: true }));
+      console.log('Generating quiz for course:', courseId);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/api/ai/generate-quiz`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ courseId })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Quiz generation response:', result);
+        
+        if (result.success && result.quiz) {
+          setQuizData(prev => ({ ...prev, [courseId]: result.quiz }));
+          setShowQuiz(prev => ({ ...prev, [courseId]: true }));
+          console.log('Quiz data set for course:', courseId, result.quiz);
+        } else {
+          console.error('Invalid quiz response:', result);
+          alert('Failed to generate quiz - invalid response');
+        }
+      } else {
+        const errorData = await response.json();
+        console.error('Quiz generation failed:', errorData);
+        alert(`Failed to generate quiz: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error generating quiz:', error);
+      alert('Failed to generate quiz');
+    } finally {
+      setIsGeneratingQuiz(prev => ({ ...prev, [courseId]: false }));
+    }
+  };
+
+  // Submit quiz answers
+  const submitQuiz = async (courseId, answers) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/api/ai/submit-quiz`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          courseId, 
+          answers,
+          quizData: quizData[courseId] // Pass the quiz data for proper scoring
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        
+        // Save quiz result to progress database
+        try {
+          const progressResponse = await fetch('http://localhost:5000/api/progress/quiz-result', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              courseId,
+              quizData: {
+                quizId: quizData[courseId]?.id || Date.now().toString(),
+                score: result.score,
+                totalQuestions: result.totalQuestions,
+                correctAnswers: result.correctAnswers,
+                feedback: result.feedback
+              }
+            })
+          });
+          
+          if (progressResponse.ok) {
+            console.log('Quiz result saved to progress database');
+          }
+        } catch (progressError) {
+          console.error('Error saving quiz progress:', progressError);
+        }
+        
+        // Update course progress and quiz results
+        setEnrolledCourses(prev => 
+          prev.map(course => 
+            course._id === courseId 
+              ? { 
+                  ...course, 
+                  progress: result.progress,
+                  quiz: { score: result.score, feedback: result.feedback }
+                }
+              : course
+          )
+        );
+        setShowQuiz(prev => ({ ...prev, [courseId]: false }));
+        alert(`Quiz completed! Score: ${result.score}%`);
+      } else {
+        alert('Failed to submit quiz');
+      }
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+      alert('Failed to submit quiz');
+    }
   };
 
   if (loading) {
@@ -264,7 +411,7 @@ export default function Student() {
                     <p className="course-category">📂 {course.category}</p>
                   )}
 
-                  {/* Course Content Preview */}
+                  {/* Course Content Preview - Only show images for non-enrolled courses */}
                   {course.courseContents && course.courseContents.length > 0 && (
                     <div className="course-content-preview">
                       {course.courseContents[0].description && (
@@ -281,10 +428,17 @@ export default function Student() {
                               alt="Course preview" 
                               className="preview-image"
                             />
+                            {!isEnrolled(course._id) && course.courseContents[0].video && (
+                              <div className="video-locked-overlay">
+                                <div className="lock-icon">🔒</div>
+                                <p>Enroll to access video content</p>
+                              </div>
+                            )}
                           </div>
                         )}
                         
-                        {course.courseContents[0].video && (
+                        {/* Only show video for enrolled students */}
+                        {course.courseContents[0].video && isEnrolled(course._id) && (
                           <div className="course-video">
                             <video 
                               src={course.courseContents[0].video} 
@@ -376,7 +530,46 @@ export default function Student() {
                   
                   <div className="course-meta">
                     <span><strong>Duration:</strong> {course.duration} weeks</span>
-                    <span><strong>Progress:</strong> 0%</span>
+                    <span><strong>Progress:</strong> {course.progress || 0}%</span>
+                  </div>
+                  
+                  {/* Progress Bar */}
+                  <div className="progress-section">
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ width: `${course.progress || 0}%` }}
+                      ></div>
+                    </div>
+                    <span className="progress-text">{course.progress || 0}% Complete</span>
+                  </div>
+                  
+                  {/* Quiz Section */}
+                  <div className="quiz-section">
+                    <h4>📝 Course Quiz</h4>
+                    {!showQuiz[course._id] ? (
+                      <>
+                        <button 
+                          className="quiz-btn"
+                          onClick={() => generateQuiz(course._id)}
+                          disabled={isGeneratingQuiz[course._id]}
+                        >
+                          {isGeneratingQuiz[course._id] ? 'Generating Quiz...' : 'Generate Quiz'}
+                        </button>
+                        {course.quiz && (
+                          <div className="quiz-results">
+                            <p>Last Quiz Score: {course.quiz.score || 0}%</p>
+                            <p>Feedback: {course.quiz.feedback || 'Complete a quiz to get feedback'}</p>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <QuizComponent 
+                        quiz={quizData[course._id]} 
+                        onSubmit={(answers) => submitQuiz(course._id, answers)}
+                        onCancel={() => setShowQuiz(prev => ({ ...prev, [course._id]: false }))}
+                      />
+                    )}
                   </div>
                   
                   <div className="course-actions">
