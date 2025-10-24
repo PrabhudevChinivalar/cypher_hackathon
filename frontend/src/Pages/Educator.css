@@ -1,13 +1,232 @@
 /* Educator Page Container */
 .educator-container {
   padding: 40px 20px;
-  display: flex;
   margin-top: 50px;
-  flex-direction: column;
-  align-items: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f2f5;
   min-height: 100vh;
+}
+
+/* Navigation Tabs */
+.educator-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  background-color: #fff;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: #2563eb;
+  color: white;
+}
+
+.nav-btn.active {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e3e3e3;
+}
+
+.section-header h2 {
+  color: #2563eb;
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+/* Courses Grid */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* Course Cards */
+.course-card {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.course-header h3 {
+  color: #2563eb;
+  margin: 0;
+  font-size: 1.3rem;
+  flex: 1;
+  margin-right: 15px;
+}
+
+.difficulty-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.difficulty-badge.beginner {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.difficulty-badge.intermediate {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.difficulty-badge.advanced {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.course-content {
+  margin-bottom: 20px;
+}
+
+.course-description {
+  color: #495057;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.course-media {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.course-image, .course-video {
+  flex: 1;
+  min-width: 120px;
+}
+
+.course-image img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.course-video video {
+  width: 100%;
+  height: 80px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  background-color: #000;
+}
+
+.course-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.course-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.delete-btn {
+  padding: 10px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* No Courses State */
+.no-courses {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  border: 2px dashed #dee2e6;
+}
+
+.no-courses p {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+
+/* Back Button */
+.back-btn {
+  padding: 10px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
 }
 
 /* Add Button (similar to Register button in Navbar) */
@@ -30,34 +249,56 @@
   box-shadow: 0 5px 10px rgba(37, 99, 235, 0.3);
 }
 
-/* Educator Form (card style like Auth box) */
+/* Educator Form */
 .educator-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 450px;
-  width: 100%;
-  margin-top: 25px;
   background: #ffffff;
-  padding: 30px 25px;
-  border-radius: 10px;
+  padding: 30px;
+  border-radius: 15px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 /* Inputs & Textarea */
 .educator-form input[type="text"],
+.educator-form input[type="number"],
 .educator-form textarea,
+.educator-form select,
 .educator-form input[type="file"] {
+  width: 100%;
   padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   font-size: 14px;
   outline: none;
   transition: border 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
 }
 
 .educator-form input[type="text"]:focus,
+.educator-form input[type="number"]:focus,
 .educator-form textarea:focus,
+.educator-form select:focus,
 .educator-form input[type="file"]:focus {
   border-color: #2563eb;
   box-shadow: 0 0 6px rgba(37, 117, 252, 0.3);
@@ -65,7 +306,11 @@
 
 .educator-form textarea {
   resize: vertical;
-  min-height: 90px;
+  min-height: 100px;
+}
+
+.educator-form select {
+  cursor: pointer;
 }
 
 /* Submit Button (green theme aligned with your design, but styled like Auth buttons) */

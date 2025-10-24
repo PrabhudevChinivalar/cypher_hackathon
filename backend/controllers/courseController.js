@@ -184,3 +184,31 @@ export const getMyEnrolledCourses = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch enrolled courses', error: error.message });
   }
 };
+
+
+export const unenrollFromCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+
+    const isEnrolled = course.enrolledStudents.some(
+      (studentId) => studentId.toString() === req.user.id
+    );
+    if (!isEnrolled) return res.status(409).json({ message: 'Not enrolled in this course' });
+
+    course.enrolledStudents = course.enrolledStudents.filter(
+      (studentId) => studentId.toString() !== req.user.id
+    );
+    await course.save();
+
+    res.json({
+      message: 'Successfully unenrolled from course',
+      course: {
+        id: course._id,
+        courseName: course.courseName,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to unenroll from course', error: error.message });
+  }
+};

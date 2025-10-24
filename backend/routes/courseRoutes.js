@@ -7,7 +7,8 @@ import {
   updateCourse,
   deleteCourse,
   enrollInCourse,
-  getMyEnrolledCourses
+  getMyEnrolledCourses,
+  unenrollFromCourse
 } from '../controllers/courseController.js';
 import { authenticate } from '../middleware/auth.js';
 import { isEducator, isCourseOwner } from '../middleware/courses.js';
@@ -28,5 +29,6 @@ router.delete('/:id', authenticate, isCourseOwner, deleteCourse);
 
 router.get('/student/my-courses', authenticate, getMyEnrolledCourses);
 router.post('/:id/enroll', authenticate, enrollInCourse);
+router.delete('/:id/unenroll', authenticate, unenrollFromCourse);
 
 export default router;

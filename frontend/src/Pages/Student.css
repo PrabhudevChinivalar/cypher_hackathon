@@ -293,7 +293,7 @@
   flex-wrap: wrap;
 }
 
-.enroll-btn, .view-btn, .continue-btn, .enrolled-btn, .browse-btn {
+.enroll-btn, .view-btn, .continue-btn, .enrolled-btn, .browse-btn, .delete-btn {
   padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -353,6 +353,131 @@
 .browse-btn:hover {
   background-color: #084a8a;
   transform: translateY(-2px);
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+/* ===== Educator Filter ===== */
+.educator-filter {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.educator-filter h3 {
+  margin-bottom: 15px;
+  color: #0a66c2;
+  font-size: 1.1rem;
+}
+
+.educator-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: #495057;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.educator-select:focus {
+  outline: none;
+  border-color: #0a66c2;
+  box-shadow: 0 0 6px rgba(10, 102, 194, 0.3);
+}
+
+/* ===== Course Content Preview ===== */
+.course-content-preview {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.course-description {
+  color: #495057;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.course-media {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.course-image, .course-video {
+  flex: 1;
+  min-width: 120px;
+}
+
+.preview-image {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.preview-video {
+  width: 100%;
+  height: 80px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  background-color: #000;
+}
+
+/* ===== Enrolled Video Section ===== */
+.course-video-section {
+  margin: 15px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 2px solid #28a745;
+}
+
+.course-video-section h4 {
+  color: #28a745;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.enrolled-video-container {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.enrolled-video {
+  width: 100%;
+  height: 250px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background-color: #000;
+}
+
+.video-description {
+  color: #495057;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
 }
 
 /* ===== No Courses State ===== */
@@ -431,6 +556,14 @@
   .course-meta {
     flex-direction: column;
     gap: 8px;
+  }
+
+  .course-media {
+    flex-direction: column;
+  }
+
+  .course-image, .course-video {
+    min-width: auto;
   }
 }
 
