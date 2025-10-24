@@ -1,6 +1,7 @@
 import Course from '../model/Courses.js';
 import { generateAIResponse, analyzeVideoContent, generateStudyQuestions } from '../services/openaiService.js';
 import { generateOllamaResponse, analyzeVideoContentOllama, generateStudyQuestionsOllama, generalKnowledgeAssistant } from '../services/ollamaService.js';
+import { generateGroqResponse, analyzeVideoContentGroq, generateStudyQuestionsGroq, generalKnowledgeAssistantGroq } from '../services/groqService.js';
 
 // AI Chat endpoint
 const chatWithAI = async (req, res) => {
@@ -17,28 +18,39 @@ const chatWithAI = async (req, res) => {
 
     let aiResponse;
 
-    // Try Ollama first (local AI)
+    // Try Groq first (fast and free)
     try {
       if (courseData) {
-        aiResponse = await generateOllamaResponse(message, courseData, conversationHistory);
+        aiResponse = await generateGroqResponse(message, courseData, conversationHistory);
       } else {
         // If no course data, use general knowledge assistant
-        aiResponse = await generalKnowledgeAssistant(message);
+        aiResponse = await generalKnowledgeAssistantGroq(message);
       }
-    } catch (ollamaError) {
-      console.log('Ollama not available, trying OpenAI...', ollamaError.message);
+    } catch (groqError) {
+      console.log('Groq not available, trying Ollama...', groqError.message);
       
-      // Fallback to OpenAI if Ollama fails
+      // Fallback to Ollama
       try {
         if (courseData) {
-          aiResponse = await generateAIResponse(message, courseData, conversationHistory);
+          aiResponse = await generateOllamaResponse(message, courseData, conversationHistory);
         } else {
-          // Basic fallback response
+          aiResponse = await generalKnowledgeAssistant(message);
+        }
+      } catch (ollamaError) {
+        console.log('Ollama not available, trying OpenAI...', ollamaError.message);
+        
+        // Fallback to OpenAI
+        try {
+          if (courseData) {
+            aiResponse = await generateAIResponse(message, courseData, conversationHistory);
+          } else {
+            // Basic fallback response
+            aiResponse = `I understand you're asking about "${message}". I'm here to help with any questions you might have. Could you provide more context about what you'd like to know?`;
+          }
+        } catch (openaiError) {
+          console.log('OpenAI also failed, using basic fallback');
           aiResponse = `I understand you're asking about "${message}". I'm here to help with any questions you might have. Could you provide more context about what you'd like to know?`;
         }
-      } catch (openaiError) {
-        console.log('OpenAI also failed, using basic fallback');
-        aiResponse = `I understand you're asking about "${message}". I'm here to help with any questions you might have. Could you provide more context about what you'd like to know?`;
       }
     }
 
@@ -73,18 +85,25 @@ const analyzeVideo = async (req, res) => {
 
     let analysis;
 
-    // Try Ollama first
+    // Try Groq first
     try {
-      analysis = await analyzeVideoContentOllama(videoUrl, courseData);
-    } catch (ollamaError) {
-      console.log('Ollama video analysis failed, trying OpenAI...');
+      analysis = await analyzeVideoContentGroq(videoUrl, courseData);
+    } catch (groqError) {
+      console.log('Groq video analysis failed, trying Ollama...');
       
-      // Fallback to OpenAI
+      // Fallback to Ollama
       try {
-        analysis = await analyzeVideoContent(videoUrl, courseData);
-      } catch (openaiError) {
-        console.log('OpenAI video analysis also failed');
-        analysis = "I can help you understand the video content. What specific aspects would you like to know more about?";
+        analysis = await analyzeVideoContentOllama(videoUrl, courseData);
+      } catch (ollamaError) {
+        console.log('Ollama video analysis failed, trying OpenAI...');
+        
+        // Fallback to OpenAI
+        try {
+          analysis = await analyzeVideoContent(videoUrl, courseData);
+        } catch (openaiError) {
+          console.log('OpenAI video analysis also failed');
+          analysis = "I can help you understand the video content. What specific aspects would you like to know more about?";
+        }
       }
     }
 
@@ -119,18 +138,25 @@ const generateQuestions = async (req, res) => {
 
     let questions;
 
-    // Try Ollama first
+    // Try Groq first
     try {
-      questions = await generateStudyQuestionsOllama(courseData);
-    } catch (ollamaError) {
-      console.log('Ollama study questions failed, trying OpenAI...');
+      questions = await generateStudyQuestionsGroq(courseData);
+    } catch (groqError) {
+      console.log('Groq study questions failed, trying Ollama...');
       
-      // Fallback to OpenAI
+      // Fallback to Ollama
       try {
-        questions = await generateStudyQuestions(courseData);
-      } catch (openaiError) {
-        console.log('OpenAI study questions also failed');
-        questions = "I can help you create study questions for this course. What specific topics would you like to focus on?";
+        questions = await generateStudyQuestionsOllama(courseData);
+      } catch (ollamaError) {
+        console.log('Ollama study questions failed, trying OpenAI...');
+        
+        // Fallback to OpenAI
+        try {
+          questions = await generateStudyQuestions(courseData);
+        } catch (openaiError) {
+          console.log('OpenAI study questions also failed');
+          questions = "I can help you create study questions for this course. What specific topics would you like to focus on?";
+        }
       }
     }
 
@@ -165,12 +191,19 @@ const generalChat = async (req, res) => {
 
     let aiResponse;
 
-    // Try Ollama first for general knowledge
+    // Try Groq first for general knowledge
     try {
-      aiResponse = await generalKnowledgeAssistant(message);
-    } catch (ollamaError) {
-      console.log('Ollama general chat failed, using fallback...');
-      aiResponse = `I understand you're asking about "${message}". I'm here to help with any questions you might have. Could you provide more context about what you'd like to know?`;
+      aiResponse = await generalKnowledgeAssistantGroq(message);
+    } catch (groqError) {
+      console.log('Groq general chat failed, trying Ollama...');
+      
+      // Fallback to Ollama
+      try {
+        aiResponse = await generalKnowledgeAssistant(message);
+      } catch (ollamaError) {
+        console.log('Ollama general chat failed, using fallback...');
+        aiResponse = `I understand you're asking about "${message}". I'm here to help with any questions you might have. Could you provide more context about what you'd like to know?`;
+      }
     }
 
     res.json({
