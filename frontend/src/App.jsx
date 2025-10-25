@@ -7,6 +7,8 @@ import CourseDetail from "./Pages/CourseDetail";
 import Home from "./Pages/HomePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
+import Mathematics from "./Components/mathematics";
+import Physics from "./Components/physics";
 
 function Layout() {
   return (
@@ -14,6 +16,8 @@ function Layout() {
       <Routes>
         <Route path="/auth" element={<Auth />} />
         <Route path="/" element={<Home/>} />
+        <Route path="/physics" element={<Physics />} />
+        <Route path="/mathematics" element={<Mathematics />} />
         <Route path="/student" element={
           <ProtectedRoute requiredRole="student">
             <Student/>

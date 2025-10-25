@@ -54,7 +54,7 @@ function Navbar() {
               </div>
             </Link>
             <Link
-              to="/opportunities"
+              to="/mathematics"
               className="nav-link mathematics-link"
               onClick={() => setIsOpen(false)}
             >
@@ -67,7 +67,7 @@ function Navbar() {
               </div>
             </Link>
             <Link
-              to="/services"
+              to="/physics"
               className="nav-link"
               onClick={() => setIsOpen(false)}
             >

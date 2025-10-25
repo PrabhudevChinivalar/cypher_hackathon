@@ -1,0 +1,146 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.physics-page {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.physics-header {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.physics-header h1 {
+  font-size: 2.8rem;
+  letter-spacing: 2px;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.physics-header p {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Glow Animation */
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #00e6ff;
+  }
+  to {
+    text-shadow: 0 0 30px #00e6ff, 0 0 60px #00e6ff;
+  }
+}
+
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  color: #00e6ff;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* Atom Animation */
+.atom {
+  width: 140px;
+  height: 140px;
+  border: 3px solid #00e6ff;
+  border-radius: 50%;
+  margin: 2rem auto;
+  position: relative;
+  animation: spin 8s linear infinite;
+}
+
+.electron {
+  width: 20px;
+  height: 20px;
+  background: #ff4081;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: orbit 4s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(70px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(70px) rotate(-360deg);
+  }
+}
+
+/* TOPICS SECTION */
+.topics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 3rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px rgba(0, 230, 255, 0.5);
+}
+
+.card h3 {
+  color: #00e6ff;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.card p {
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+
+/* FOOTER */
+.physics-footer {
+  text-align: center;
+  padding: 1.2rem;
+  font-size: 0.9rem;
+  color: #bbb;
+  background: rgba(255, 255, 255, 0.05);
+}
