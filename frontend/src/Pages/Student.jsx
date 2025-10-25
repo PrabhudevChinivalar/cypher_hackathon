@@ -410,7 +410,7 @@ export default function Student() {
           <div className="course-grid image-grid">
             {courses.length > 0 ? (
               courses.map((course) => (
-                <div key={course._id} className="course-card image-card">
+                <div key={course._id} className="course-card image-card scientific-card">
                   {/* Course Image */}
                   {course.courseContents && course.courseContents.length > 0 && course.courseContents[0].image && (
                     <div className="course-image-container">
@@ -421,10 +421,6 @@ export default function Student() {
                       />
                       <div className="course-overlay">
                         <div className="course-info">
-                          <h3 className="course-title">{course.courseName}</h3>
-                          <p className="course-educator">
-                            👨‍🏫 {course.educator?.name || 'Unknown Educator'}
-                          </p>
                           <span className={`difficulty-badge ${course.difficulty}`}>
                             {course.difficulty}
                           </span>
@@ -452,6 +448,17 @@ export default function Student() {
                       </div>
                     </div>
                   )}
+                  {/* Course Title Below Card */}
+                  <div className="course-card-footer">
+                    <h3 className="course-title">{course.courseName}</h3>
+                    <p className="course-educator">
+                      👨‍🏫 {course.educator?.name || 'Unknown Educator'}
+                    </p>
+                    <div className="course-meta">
+                      <span><strong>Duration:</strong> {course.duration} weeks</span>
+                      <span><strong>Rating:</strong> ⭐ {course.rating || 'N/A'}</span>
+                    </div>
+                  </div>
                 </div>
               ))
             ) : (

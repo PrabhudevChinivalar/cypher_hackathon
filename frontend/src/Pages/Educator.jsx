@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./Educator.css"; 
 import Navbar from "../Components/Navbar";
+import PendulumAnimation from "../Components/PendulumAnimation";
+import BeakerAnimation from "../Components/BeakerAnimation";
+import CalculusAnimation from "../Components/CalculusAnimation";
 
 function Educator() {
   const [showForm, setShowForm] = useState(false);
@@ -142,6 +145,14 @@ function Educator() {
     <>
       <Navbar/>
       <div className="educator-container">
+        {/* Scientific Background */}
+        <div className="scientific-background">
+          <div className="floating-animations">
+            <PendulumAnimation size="medium" color="#007bff" />
+            <BeakerAnimation size="medium" liquidColor="#4CAF50" bubbles={true} />
+            <CalculusAnimation type="equation" size="medium" equation="f(x) = x²" />
+          </div>
+        </div>
         {/* Navigation Tabs */}
         <div className="educator-nav">
           <button 
@@ -174,7 +185,7 @@ function Educator() {
               <div className="courses-grid">
                 {courses.length > 0 ? (
                   courses.map((course) => (
-                    <div key={course._id} className="course-card">
+                    <div key={course._id} className="course-card scientific-card">
                       <div className="course-header">
                         <h3>{course.courseName}</h3>
                         <span className={`difficulty-badge ${course.difficulty}`}>
@@ -245,9 +256,9 @@ function Educator() {
 
         {/* Create Course Tab */}
         {activeTab === 'create-course' && (
-          <div className="create-course-section">
+          <div className="create-course-section scientific-form">
             <div className="section-header">
-              <h2>Create New Course</h2>
+              <h2>🔬 Create New Course</h2>
               <button className="back-btn" onClick={() => setActiveTab('my-courses')}>
                 ← Back to Courses
               </button>

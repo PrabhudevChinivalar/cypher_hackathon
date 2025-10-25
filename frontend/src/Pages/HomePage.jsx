@@ -85,34 +85,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Cards Section */}
-      <section className="cards-section">
-        <h2 className="section-title">Explore Scientific Categories</h2>
-        <div className="cards-container">
-          <Cards />
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="testimonials-section">
-        <h2 className="section-title">What Scientists Say</h2>
-        <div className="testimonials-container">
-          {testimonials.map((item, index) => (
-            <div key={index} className="testimonial-card">
-              <div className="testimonial-animation">
-                {index === 0 ? (
-                  <PendulumAnimation size="small" color="#007bff" />
-                ) : (
-                  <CalculusAnimation type="equation" size="small" />
-                )}
-              </div>
-              <p className="testimonial-feedback">"{item.feedback}"</p>
-              <h3 className="testimonial-name">{item.name}</h3>
-              <p className="testimonial-role">{item.role}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* Footer */}
       <Footer />

@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import AIChat from "../Components/AIChat";
 import QuizComponent from "../Components/QuizComponent";
+import PendulumAnimation from "../Components/PendulumAnimation";
+import BeakerAnimation from "../Components/BeakerAnimation";
+import CalculusAnimation from "../Components/CalculusAnimation";
 import "./CourseDetail.css";
 
 export default function CourseDetail() {
@@ -289,6 +292,15 @@ export default function CourseDetail() {
 
   return (
     <div className="course-detail-container">
+      {/* Scientific Background */}
+      <div className="scientific-background">
+        <div className="floating-animations">
+          <PendulumAnimation size="medium" color="#007bff" />
+          <BeakerAnimation size="medium" liquidColor="#4CAF50" bubbles={true} />
+          <CalculusAnimation type="equation" size="medium" equation="f(x) = x²" />
+        </div>
+      </div>
+
       {/* Header with back button */}
       <div className="course-detail-header">
         <button onClick={() => navigate('/student')} className="back-btn">
