@@ -1,0 +1,156 @@
+/* Global Scientific Theme Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.scientific-app {
+  min-height: 100vh;
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* Scientific Background Pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="molecules" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="25" r="1.5" fill="rgba(255,255,255,0.08)"/><circle cx="25" cy="75" r="1.5" fill="rgba(255,255,255,0.08)"/><circle cx="75" cy="75" r="2" fill="rgba(255,255,255,0.1)"/><line x1="25" y1="25" x2="75" y2="25" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/><line x1="25" y1="25" x2="25" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/><line x1="75" y1="25" x2="75" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/><line x1="25" y1="75" x2="75" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23molecules)"/></svg>');
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #0056b3, #0084ff);
+}
+
+/* Global animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Utility classes */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Scientific gradient text */
+.gradient-text {
+  background: linear-gradient(45deg, #007bff, #00c6ff, #4CAF50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+/* Scientific glow effect */
+.scientific-glow {
+  box-shadow: 0 0 20px rgba(0,123,255,0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.scientific-glow:hover {
+  box-shadow: 0 0 30px rgba(0,123,255,0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}

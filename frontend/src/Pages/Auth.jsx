@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import TermsModel from "../Components/TermsModel";
+import PendulumAnimation from "../Components/PendulumAnimation";
+import BeakerAnimation from "../Components/BeakerAnimation";
+import CalculusAnimation from "../Components/CalculusAnimation";
 import "./Auth.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -39,8 +42,24 @@ function Auth() {
 
   return (
     <div className="auth-container">
+      <div className="auth-background">
+        <div className="auth-animations">
+          <PendulumAnimation size="medium" color="#007bff" />
+          <BeakerAnimation size="medium" liquidColor="#4CAF50" bubbles={true} />
+          <CalculusAnimation type="equation" size="medium" equation="f(x) = x²" />
+        </div>
+      </div>
       <div className="auth-box">
-        <h2 className="auth-title">{isLogin ? "Login" : `Register as ${role}`}</h2>
+        <div className="auth-header">
+          <div className="auth-logo">
+            <PendulumAnimation size="small" color="#00c6ff" />
+            <h1 className="auth-brand">SciLearnHub</h1>
+          </div>
+          <h2 className="auth-title">{isLogin ? "Welcome Back" : `Join as ${role}`}</h2>
+          <p className="auth-subtitle">
+            {isLogin ? "Sign in to continue your scientific journey" : "Start your scientific learning adventure"}
+          </p>
+        </div>
 
         {!isLogin && (
           <div className="role-toggle">

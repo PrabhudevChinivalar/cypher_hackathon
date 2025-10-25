@@ -1,0 +1,142 @@
+/* Pendulum Animation Styles */
+.pendulum-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.pendulum-container.small {
+  width: 60px;
+  height: 80px;
+}
+
+.pendulum-container.medium {
+  width: 100px;
+  height: 120px;
+}
+
+.pendulum-container.large {
+  width: 150px;
+  height: 180px;
+}
+
+.pendulum-setup {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.pendulum-stand {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.pendulum-string {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform-origin: top center;
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(to bottom, #8b4513, #654321);
+  border-radius: 1px;
+  animation: pendulum-swing 2s ease-in-out infinite;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+
+.pendulum-bob {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #fff, var(--pendulum-color, #007bff));
+  border-radius: 50%;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.3),
+    inset 0 2px 4px rgba(255,255,255,0.3);
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.pendulum-bob::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+/* Pendulum Animation */
+@keyframes pendulum-swing {
+  0% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(-15deg);
+  }
+}
+
+/* Size variations */
+.pendulum-container.small .pendulum-string {
+  height: 40px;
+}
+
+.pendulum-container.small .pendulum-bob {
+  width: 15px;
+  height: 15px;
+  bottom: -12px;
+}
+
+.pendulum-container.large .pendulum-string {
+  height: 80px;
+}
+
+.pendulum-container.large .pendulum-bob {
+  width: 25px;
+  height: 25px;
+  bottom: -18px;
+}
+
+/* Hover effects */
+.pendulum-container:hover .pendulum-string {
+  animation-duration: 1.5s;
+}
+
+.pendulum-container:hover .pendulum-bob {
+  box-shadow: 
+    0 6px 12px rgba(0,0,0,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.4);
+}
+
+/* Multiple pendulums for complex animations */
+.pendulum-container.multiple {
+  display: flex;
+  gap: 20px;
+}
+
+.pendulum-container.multiple .pendulum-string:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.pendulum-container.multiple .pendulum-string:nth-child(3) {
+  animation-delay: 0.6s;
+}

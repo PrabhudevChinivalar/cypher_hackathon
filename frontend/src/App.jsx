@@ -36,11 +36,13 @@ function Layout() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Layout />
-      </Router>
-    </AuthProvider>
+    <div className="scientific-app">
+      <AuthProvider>
+        <Router>
+          <Layout />
+        </Router>
+      </AuthProvider>
+    </div>
   );
 }
 

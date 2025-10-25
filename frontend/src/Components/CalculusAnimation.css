@@ -1,0 +1,354 @@
+/* Calculus Animation Styles */
+.calculus-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 10px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Navbar specific styles for calculus animation */
+.navbar .calculus-container {
+  margin: 0;
+  padding: 8px;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+.calculus-container.small {
+  width: 200px;
+  height: 120px;
+}
+
+/* Navbar specific small size */
+.navbar .calculus-container.small {
+  width: 100%;
+  height: 100%;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.calculus-container.medium {
+  width: 300px;
+  height: 180px;
+}
+
+.calculus-container.large {
+  width: 400px;
+  height: 240px;
+}
+
+/* Graph Styles */
+.calculus-graph {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.graph-svg {
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.8);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.function-curve {
+  animation: curve-draw 3s ease-in-out infinite;
+}
+
+.tangent-line {
+  animation: tangent-move 2s ease-in-out infinite;
+}
+
+.moving-point {
+  animation: point-move 2s ease-in-out infinite;
+}
+
+/* Equation Styles */
+.calculus-equation {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Navbar specific equation styles */
+.navbar .calculus-equation {
+  font-size: 0.8rem;
+  padding: 2px;
+}
+
+.equation-container {
+  text-align: center;
+  position: relative;
+}
+
+.equation-main {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 10px;
+  animation: equation-glow 2s ease-in-out infinite;
+}
+
+/* Navbar specific equation main */
+.navbar .equation-main {
+  font-size: 12px;
+  margin-bottom: 2px;
+  color: #ff6b6b;
+}
+
+.equation-text {
+  display: inline-block;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+/* Navbar specific equation text */
+.navbar .equation-text {
+  padding: 2px 6px;
+  font-size: 10px;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(255,107,107,0.3);
+}
+
+.derivative {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0;
+  animation: derivative-slide 2s ease-in-out infinite;
+}
+
+/* Hide derivative and integral in navbar for cleaner look */
+.navbar .derivative,
+.navbar .integral {
+  display: none;
+}
+
+.derivative-label {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+.derivative-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff6b6b;
+  background: rgba(255,107,107,0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.integral {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  animation: integral-fade 2s ease-in-out infinite;
+}
+
+.integral-symbol {
+  font-size: 20px;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.integral-text {
+  font-size: 16px;
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Particle Styles */
+.calculus-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #007bff, #00c6ff);
+  border-radius: 50%;
+  animation: particle-float 3s ease-in-out infinite;
+}
+
+.particle-1 {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.particle-2 {
+  top: 40%;
+  left: 30%;
+  animation-delay: 0.5s;
+}
+
+.particle-3 {
+  top: 60%;
+  left: 50%;
+  animation-delay: 1s;
+}
+
+.particle-4 {
+  top: 30%;
+  left: 70%;
+  animation-delay: 1.5s;
+}
+
+.particle-5 {
+  top: 70%;
+  left: 90%;
+  animation-delay: 2s;
+}
+
+/* Animations */
+@keyframes curve-draw {
+  0% {
+    stroke-dasharray: 0 1000;
+  }
+  100% {
+    stroke-dasharray: 1000 0;
+  }
+}
+
+@keyframes tangent-move {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(10px);
+  }
+}
+
+@keyframes point-move {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes equation-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(0,123,255,0.3);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(0,123,255,0.6);
+  }
+}
+
+@keyframes derivative-slide {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 1;
+  }
+}
+
+@keyframes integral-fade {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes particle-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Size variations */
+.calculus-container.small .equation-main {
+  font-size: 18px;
+}
+
+.calculus-container.small .derivative-text {
+  font-size: 14px;
+}
+
+.calculus-container.small .integral-text {
+  font-size: 12px;
+}
+
+.calculus-container.large .equation-main {
+  font-size: 32px;
+}
+
+.calculus-container.large .derivative-text {
+  font-size: 22px;
+}
+
+.calculus-container.large .integral-text {
+  font-size: 20px;
+}
+
+/* Hover effects */
+.calculus-container:hover .function-curve {
+  animation-duration: 2s;
+}
+
+.calculus-container:hover .particle {
+  animation-duration: 2s;
+}
+
+.calculus-container:hover .equation-text {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Combined type styles */
+.calculus-container.combined {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  align-items: start;
+}
+
+.calculus-container.combined .calculus-graph {
+  grid-column: 1;
+}
+
+.calculus-container.combined .calculus-equation {
+  grid-column: 2;
+}
+
+.calculus-container.combined .calculus-particles {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}

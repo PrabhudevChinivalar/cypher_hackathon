@@ -3,38 +3,56 @@ import Navbar from "../Components/Navbar";
 import Cards from "../Components/Cards";
 import Slider from "../Components/Slider";
 import Footer from "../Components/Footer";
+import ScientificShowcase from "../Components/ScientificShowcase";
+import PendulumAnimation from "../Components/PendulumAnimation";
+import BeakerAnimation from "../Components/BeakerAnimation";
+import CalculusAnimation from "../Components/CalculusAnimation";
+import "./HomePage.css";
 
 export default function HomePage() {
   const slides = [
     {
-      name: "Welcome to EngJobHub",
-      image:
-        "https://img.freepik.com/free-photo/hands-typing-keyboard-top-view_23-2149762478.jpg?semt=ais_hybrid&w=740&q=80",
+      name: "Advanced Physics Laboratory",
+      description: "Interactive simulations of quantum mechanics, thermodynamics, and wave phenomena",
+      image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      category: "Physics",
+      color: "#007bff"
     },
     {
-      name: "Upload Your Courses",
-      image:
-        "https://media.istockphoto.com/id/1325786046/vector/tiny-characters-creating-content-copywriting-marketing-concept-home-based-copywriter-writer.jpg?s=612x612&w=0&k=20&c=mBwFjw011d94o1Y57aajyrQP0E6j0FlYdKPZHqE8Lp0=",
+      name: "Molecular Chemistry Lab",
+      description: "Real-time chemical reactions, molecular modeling, and advanced analytical techniques",
+      image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      category: "Chemistry",
+      color: "#4CAF50"
     },
     {
-      name: "Boost Your Skills",
-      image:
-        "https://blog.iilm.edu/wp-content/uploads/2020/05/Guide-to-Professional-Networking-and-Job-Search.jpg",
+      name: "Mathematical Analysis Center",
+      description: "Advanced calculus, differential equations, and statistical modeling with interactive graphs",
+      image: "https://images.unsplash.com/photo-1509228468518-180f486eb53b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      category: "Mathematics",
+      color: "#ff6b6b"
     },
+    {
+      name: "Biotechnology Research",
+      description: "Cutting-edge molecular biology, genetics, and bioinformatics research tools",
+      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      category: "Biology",
+      color: "#9c27b0"
+    }
   ];
 
   const testimonials = [
     {
-      name: "Aarav Patel",
+      name: "Dr. Aarav Patel",
       feedback:
-        "EngJobHub helped me find the right engineering job faster than any other platform!",
-      role: "Software Engineer, Infosys",
+        "SciLearnHub's interactive physics simulations helped me understand complex concepts like never before!",
+      role: "Physics Professor, MIT",
     },
     {
-      name: "Priya Sharma",
+      name: "Dr. Priya Sharma",
       feedback:
-        "I loved uploading my mini-courses — the community here is so supportive!",
-      role: "Mechanical Engineer, Siemens",
+        "The calculus animations made differential equations so much clearer for my students!",
+      role: "Mathematics Professor, Stanford",
     },
   ];
 
@@ -47,52 +65,50 @@ export default function HomePage() {
         <Slider slides={slides} />
       </div>
 
+      {/* Scientific Showcase */}
+      <ScientificShowcase />
+
       {/* About Section */}
-      <section style={{ padding: "60px 20px", backgroundColor: "#f8f8f8", textAlign: "center" }}>
-        <h2 style={{ fontSize: "2rem", color: "#0a66c2" }}>About EngJobHub</h2>
-        <p style={{ maxWidth: "800px", margin: "20px auto", fontSize: "1.1rem", color: "#333" }}>
-          EngJobHub is your go-to platform for engineering learning, growth, and career
-          development. Discover free courses, connect with experts, and showcase your skills
-          to potential employers — all in one place.
-        </p>
+      <section className="about-section">
+        <div className="about-content">
+          <div className="about-animations">
+            <PendulumAnimation size="medium" color="#007bff" />
+            <BeakerAnimation size="medium" liquidColor="#4CAF50" bubbles={true} />
+            <CalculusAnimation type="combined" size="medium" />
+          </div>
+          <h2 className="about-title">About SciLearnHub</h2>
+          <p className="about-description">
+            SciLearnHub is your ultimate platform for scientific learning, discovery, and innovation.
+            Explore interactive physics simulations, chemistry experiments, and calculus visualizations
+            that make complex scientific concepts come alive through engaging animations and hands-on learning.
+          </p>
+        </div>
       </section>
 
       {/* Cards Section */}
-      <section style={{ padding: "60px 20px", textAlign: "center" }}>
-        <h2 style={{ fontSize: "2rem", color: "#0a66c2", marginBottom: "20px" }}>
-          Explore Categories
-        </h2>
-        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "20px" }}>
+      <section className="cards-section">
+        <h2 className="section-title">Explore Scientific Categories</h2>
+        <div className="cards-container">
           <Cards />
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section style={{ padding: "60px 20px", backgroundColor: "#f0f0f0" }}>
-        <h2 style={{ fontSize: "2rem", color: "#0a66c2", textAlign: "center" }}>Testimonials</h2>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "30px",
-            marginTop: "30px",
-          }}
-        >
+      <section className="testimonials-section">
+        <h2 className="section-title">What Scientists Say</h2>
+        <div className="testimonials-container">
           {testimonials.map((item, index) => (
-            <div
-              key={index}
-              style={{
-                background: "#fff",
-                padding: "20px",
-                borderRadius: "10px",
-                width: "300px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              }}
-            >
-              <p style={{ fontStyle: "italic", color: "#555" }}>"{item.feedback}"</p>
-              <h3 style={{ marginTop: "15px", color: "#0a66c2" }}>{item.name}</h3>
-              <p style={{ color: "#777", fontSize: "0.9rem" }}>{item.role}</p>
+            <div key={index} className="testimonial-card">
+              <div className="testimonial-animation">
+                {index === 0 ? (
+                  <PendulumAnimation size="small" color="#007bff" />
+                ) : (
+                  <CalculusAnimation type="equation" size="small" />
+                )}
+              </div>
+              <p className="testimonial-feedback">"{item.feedback}"</p>
+              <h3 className="testimonial-name">{item.name}</h3>
+              <p className="testimonial-role">{item.role}</p>
             </div>
           ))}
         </div>

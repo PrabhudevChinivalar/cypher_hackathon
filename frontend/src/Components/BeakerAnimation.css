@@ -1,0 +1,301 @@
+/* Beaker Animation Styles */
+.beaker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 10px;
+}
+
+.beaker-container.small {
+  width: 60px;
+  height: 80px;
+}
+
+.beaker-container.medium {
+  width: 80px;
+  height: 100px;
+}
+
+.beaker-container.large {
+  width: 120px;
+  height: 150px;
+}
+
+.beaker-setup {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.beaker-glass {
+  position: relative;
+  width: 60%;
+  height: 80%;
+  background: linear-gradient(135deg, 
+    rgba(255,255,255,0.9) 0%, 
+    rgba(240,240,240,0.8) 50%, 
+    rgba(220,220,220,0.9) 100%);
+  border: 3px solid rgba(200,200,200,0.8);
+  border-radius: 0 0 20px 20px;
+  box-shadow: 
+    inset 0 0 10px rgba(0,0,0,0.1),
+    0 4px 8px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.beaker-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--liquid-level, 60%);
+  background: linear-gradient(to top, 
+    var(--liquid-color, #4CAF50) 0%, 
+    color-mix(in srgb, var(--liquid-color, #4CAF50) 80%, white) 100%);
+  border-radius: 0 0 15px 15px;
+  animation: liquid-wave 3s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.beaker-liquid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255,255,255,0.6) 50%, 
+    transparent 100%);
+  animation: liquid-shine 2s ease-in-out infinite;
+}
+
+/* Bubbles Animation */
+.bubble {
+  position: absolute;
+  background: radial-gradient(circle at 30% 30%, 
+    rgba(255,255,255,0.8), 
+    rgba(255,255,255,0.3));
+  border-radius: 50%;
+  animation: bubble-rise 2s ease-in-out infinite;
+}
+
+.bubble-1 {
+  width: 3px;
+  height: 3px;
+  bottom: 10%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.bubble-2 {
+  width: 2px;
+  height: 2px;
+  bottom: 15%;
+  left: 60%;
+  animation-delay: 0.5s;
+}
+
+.bubble-3 {
+  width: 4px;
+  height: 4px;
+  bottom: 5%;
+  left: 40%;
+  animation-delay: 1s;
+}
+
+.bubble-4 {
+  width: 2px;
+  height: 2px;
+  bottom: 20%;
+  left: 80%;
+  animation-delay: 1.5s;
+}
+
+.bubble-5 {
+  width: 3px;
+  height: 3px;
+  bottom: 8%;
+  left: 10%;
+  animation-delay: 2s;
+}
+
+/* Steam Animation */
+.steam {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 20px;
+}
+
+.steam-particle {
+  position: absolute;
+  width: 2px;
+  height: 15px;
+  background: linear-gradient(to top, 
+    rgba(200,200,200,0.8), 
+    rgba(255,255,255,0.3));
+  border-radius: 50%;
+  animation: steam-rise 2s ease-in-out infinite;
+}
+
+.steam-1 {
+  left: 30%;
+  animation-delay: 0s;
+}
+
+.steam-2 {
+  left: 50%;
+  animation-delay: 0.7s;
+}
+
+.steam-3 {
+  left: 70%;
+  animation-delay: 1.4s;
+}
+
+/* Graduations */
+.beaker-graduations {
+  position: absolute;
+  right: -8px;
+  top: 10%;
+  width: 6px;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.graduation {
+  width: 100%;
+  height: 1px;
+  background: rgba(100,100,100,0.6);
+  border-radius: 1px;
+}
+
+.beaker-label {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: #666;
+  background: rgba(255,255,255,0.9);
+  padding: 2px 6px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Animations */
+@keyframes liquid-wave {
+  0%, 100% {
+    transform: translateX(0) scaleY(1);
+  }
+  25% {
+    transform: translateX(1px) scaleY(1.02);
+  }
+  50% {
+    transform: translateX(0) scaleY(1.05);
+  }
+  75% {
+    transform: translateX(-1px) scaleY(1.02);
+  }
+}
+
+@keyframes liquid-shine {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes bubble-rise {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes steam-rise {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Size variations */
+.beaker-container.small .beaker-glass {
+  width: 50%;
+  height: 70%;
+}
+
+.beaker-container.small .beaker-label {
+  font-size: 8px;
+  bottom: -20px;
+}
+
+.beaker-container.large .beaker-glass {
+  width: 70%;
+  height: 85%;
+}
+
+.beaker-container.large .beaker-label {
+  font-size: 12px;
+  bottom: -30px;
+}
+
+/* Heat effects */
+.beaker-container.heated .beaker-liquid {
+  animation: liquid-wave 1.5s ease-in-out infinite, 
+             liquid-boil 0.5s ease-in-out infinite;
+}
+
+.beaker-container.heated .bubble {
+  animation-duration: 1s;
+}
+
+@keyframes liquid-boil {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.1);
+  }
+}
+
+/* Hover effects */
+.beaker-container:hover .beaker-liquid {
+  animation-duration: 2s;
+}
+
+.beaker-container:hover .bubble {
+  animation-duration: 1.5s;
+}

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import QuizComponent from "../Components/QuizComponent";
+import PendulumAnimation from "../Components/PendulumAnimation";
+import BeakerAnimation from "../Components/BeakerAnimation";
+import CalculusAnimation from "../Components/CalculusAnimation";
 import "./Student.css";
 
 export default function Student() {
@@ -309,10 +312,22 @@ export default function Student() {
 
   return (
     <div className="student-dashboard">
+      {/* Scientific Background */}
+      <div className="scientific-background">
+        <div className="floating-animations">
+          <PendulumAnimation size="small" color="#007bff" />
+          <BeakerAnimation size="small" liquidColor="#4CAF50" bubbles={true} />
+          <CalculusAnimation type="equation" size="small" equation="f(x) = x²" />
+        </div>
+      </div>
+
       {/* Left Sidebar - Student Info */}
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h2 className="sidebar-title">Student Dashboard</h2>
+          <div className="sidebar-logo">
+            <PendulumAnimation size="small" color="#00c6ff" />
+            <h2 className="sidebar-title">SciLearnHub</h2>
+          </div>
           <div className="user-avatar">
             <span>{student.name.charAt(0).toUpperCase()}</span>
           </div>
@@ -392,92 +407,51 @@ export default function Student() {
         )}
 
         {activeTab === 'all-courses' && (
-          <div className="course-grid">
+          <div className="course-grid image-grid">
             {courses.length > 0 ? (
               courses.map((course) => (
-                <div key={course._id} className="course-card">
-                  <div className="course-header">
-                    <h3 className="course-title">{course.courseName}</h3>
-                    <span className={`difficulty-badge ${course.difficulty}`}>
-                      {course.difficulty}
-                    </span>
-                  </div>
-                  
-                  <p className="course-educator">
-                    👨‍🏫 {course.educator?.name || 'Unknown Educator'}
-                  </p>
-                  
-                  {course.category && (
-                    <p className="course-category">📂 {course.category}</p>
-                  )}
-
-                  {/* Course Content Preview - Only show images for non-enrolled courses */}
-                  {course.courseContents && course.courseContents.length > 0 && (
-                    <div className="course-content-preview">
-                      {course.courseContents[0].description && (
-                        <p className="course-description">
-                          {course.courseContents[0].description}
-                        </p>
-                      )}
-                      
-                      <div className="course-media">
-                        {course.courseContents[0].image && (
-                          <div className="course-image">
-                            <img 
-                              src={course.courseContents[0].image} 
-                              alt="Course preview" 
-                              className="preview-image"
-                            />
-                            {!isEnrolled(course._id) && course.courseContents[0].video && (
-                              <div className="video-locked-overlay">
-                                <div className="lock-icon">🔒</div>
-                                <p>Enroll to access video content</p>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                        
-                        {/* Only show video for enrolled students */}
-                        {course.courseContents[0].video && isEnrolled(course._id) && (
-                          <div className="course-video">
-                            <video 
-                              src={course.courseContents[0].video} 
-                              controls 
-                              className="preview-video"
+                <div key={course._id} className="course-card image-card">
+                  {/* Course Image */}
+                  {course.courseContents && course.courseContents.length > 0 && course.courseContents[0].image && (
+                    <div className="course-image-container">
+                      <img 
+                        src={course.courseContents[0].image} 
+                        alt={course.courseName} 
+                        className="course-main-image"
+                      />
+                      <div className="course-overlay">
+                        <div className="course-info">
+                          <h3 className="course-title">{course.courseName}</h3>
+                          <p className="course-educator">
+                            👨‍🏫 {course.educator?.name || 'Unknown Educator'}
+                          </p>
+                          <span className={`difficulty-badge ${course.difficulty}`}>
+                            {course.difficulty}
+                          </span>
+                        </div>
+                        <div className="course-actions-overlay">
+                          {isEnrolled(course._id) ? (
+                            <button className="enrolled-btn-overlay" disabled>
+                              ✅ Enrolled
+                            </button>
+                          ) : (
+                            <button 
+                              className="enroll-btn-overlay"
+                              onClick={() => enrollInCourse(course._id)}
                             >
-                              Your browser does not support the video tag.
-                            </video>
-                          </div>
-                        )}
+                              Enroll Now
+                            </button>
+                          )}
+                          <button 
+                            className="view-btn-overlay"
+                            onClick={() => viewCourseDetails(course._id)}
+                          >
+                            View Details
+                          </button>
+                        </div>
                       </div>
                     </div>
                   )}
-                  
-                  <div className="course-meta">
-                    <span><strong>Duration:</strong> {course.duration} weeks</span>
-                    <span><strong>Rating:</strong> ⭐ {course.rating || 'N/A'}</span>
-                  </div>
-                  
-                  <div className="course-actions">
-                    {isEnrolled(course._id) ? (
-                      <button className="enrolled-btn" disabled>
-                        ✅ Enrolled
-                      </button>
-                    ) : (
-                      <button 
-                        className="enroll-btn"
-                        onClick={() => enrollInCourse(course._id)}
-                      >
-                        Enroll Now
-                      </button>
-                    )}
-                    <button 
-                      className="view-btn"
-                      onClick={() => viewCourseDetails(course._id)}
-                    >
-                      View Details
-                    </button>
-                  </div>
                 </div>
               ))
             ) : (
@@ -489,10 +463,10 @@ export default function Student() {
         )}
 
         {activeTab === 'enrolled' && (
-          <div className="course-grid">
+          <div className="course-grid enrolled-grid">
             {enrolledCourses.length > 0 ? (
               enrolledCourses.map((course) => (
-                <div key={course._id} className="course-card enrolled">
+                <div key={course._id} className="course-card enrolled scientific-card">
                   <div className="course-header">
                     <h3 className="course-title">{course.courseName}</h3>
                     <span className="enrolled-badge">✅ Enrolled</span>
